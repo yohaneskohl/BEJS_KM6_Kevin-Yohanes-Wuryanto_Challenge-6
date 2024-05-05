@@ -3,6 +3,20 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET_KEY } = process.env;
 const { image } = require("../../libs/multer.js");
 
+const swaggerUI = require("swagger-ui-express");
+const yaml = require("yaml");
+const fs = require("fs");
+const path = require("path");
+
+const swagger_path = path.resolve(__dirname, "../../api-docs.yaml");
+const file = fs.readFileSync(swagger_path, "utf-8");
+
+const swaggerDocument = yaml.parse(file);
+router.use(
+  "/api/v1/api-docs",
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerDocument)
+);
 
 // Restrict for Authenticate (jika gamau repot login, gausah, hapus aja)
 let restrict = (req, res, next) => {

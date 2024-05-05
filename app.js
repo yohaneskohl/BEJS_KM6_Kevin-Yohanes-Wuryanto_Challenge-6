@@ -9,5 +9,6 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(router);
+app.get('/', (req,res) => res.json({status: true, message: "Hello World!", data: null}));
 
 module.exports = app;
