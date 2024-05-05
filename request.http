@@ -1,0 +1,66 @@
+######### API Users ########
+
+### Post - menambahkan user baru beserta dengan profilnya.
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+    "name": "abiyyi",
+    "email": "abiyyi@gmail.com",
+    "password": "password123"
+}
+
+### GET - menampilkan daftar users.
+GET http://localhost:3000/api/v1/users
+
+### UPDATE USER
+PUT http://localhost:3000/api/v1/users/5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFiaXl5aSIsImVtYWlsIjoiYWJpeXlpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE45S2IzUDB5L1BsQTdqYmZsSU1WYWV6NERwZnBTSS9xWVRtYkdlTEpxUTdZbVpHcTZPeGVpIiwiaWF0IjoxNzE0ODIzNzQxfQ.GGOB8T-HDN15HO2ZgYpFBdlrP6X9c4wcVbnJSkyYMIc
+
+
+{
+    "name": "abiyyi",
+    "email": "abiyyi@gmail.com",
+    "password": "passwordbaru"
+}
+
+### POST IMAGE
+POST http://localhost:3000/api/v1/avatar/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFiaXl5aSIsImVtYWlsIjoiYWJpeXlpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE45S2IzUDB5L1BsQTdqYmZsSU1WYWV6NERwZnBTSS9xWVRtYkdlTEpxUTdZbVpHcTZPeGVpIiwiaWF0IjoxNzE0ODIzNzQxfQ.GGOB8T-HDN15HO2ZgYpFBdlrP6X9c4wcVbnJSkyYMIc
+
+
+multipart/form-data
+file=@"/path/to/file"
+title="foto bagus"
+description="description foto bagus"
+
+### GET IMAGE
+GET http://localhost:3000/api/v1/avatar/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFiaXl5aSIsImVtYWlsIjoiYWJpeXlpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE45S2IzUDB5L1BsQTdqYmZsSU1WYWV6NERwZnBTSS9xWVRtYkdlTEpxUTdZbVpHcTZPeGVpIiwiaWF0IjoxNzE0ODIzNzQxfQ.GGOB8T-HDN15HO2ZgYpFBdlrP6X9c4wcVbnJSkyYMIc
+
+
+### Delete Avatar
+DELETE http://localhost:3000/api/v1/avatar/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFiaXl5aSIsImVtYWlsIjoiYWJpeXlpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE45S2IzUDB5L1BsQTdqYmZsSU1WYWV6NERwZnBTSS9xWVRtYkdlTEpxUTdZbVpHcTZPeGVpIiwiaWF0IjoxNzE0ODIzNzQxfQ.GGOB8T-HDN15HO2ZgYpFBdlrP6X9c4wcVbnJSkyYMIc
+
+
+### Delete User
+DELETE http://localhost:3000/api/v1/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFiaXl5aSIsImVtYWlsIjoiYWJpeXlpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE45S2IzUDB5L1BsQTdqYmZsSU1WYWV6NERwZnBTSS9xWVRtYkdlTEpxUTdZbVpHcTZPeGVpIiwiaWF0IjoxNzE0ODIzNzQxfQ.GGOB8T-HDN15HO2ZgYpFBdlrP6X9c4wcVbnJSkyYMIc
+
+
+### Post - login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "name": "abiyyi",
+    "email": "abiyyi@gmail.com",
+    "password": "password123"
+}
+
+### GET - AUTHENTICATE
+GET http://localhost:3000/api/v1/auth/authenticate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFiaXl5aSIsImVtYWlsIjoiYWJpeXlpQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE45S2IzUDB5L1BsQTdqYmZsSU1WYWV6NERwZnBTSS9xWVRtYkdlTEpxUTdZbVpHcTZPeGVpIiwiaWF0IjoxNzE0ODIzNzQxfQ.GGOB8T-HDN15HO2ZgYpFBdlrP6X9c4wcVbnJSkyYMIc
+

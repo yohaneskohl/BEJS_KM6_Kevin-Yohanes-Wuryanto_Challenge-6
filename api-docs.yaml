@@ -1,0 +1,643 @@
+openapi: 3.0.0
+info:
+  title: MEDIA HANDLING TO IMAGEKIT
+  description: contains an API in chapter 6 for uploading files in imageKit
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+tags:
+  - name: Authentication
+    description: Endpoint untuk autentikasi pengguna.
+  - name: Users
+    description: Endpoint untuk mengelola pengguna.
+  - name: Avatar
+    description: Endpoint untuk menggunggah file image pengguna.
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/CreateUser'
+      responses:
+        201:
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User Created Successfully
+                  data:
+                    $ref: '#/components/schemas/LoginResponse'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                  data:
+                    example: ~ 
+
+  /auth/authenticate:
+    get:
+      tags:
+        - Authentication
+      summary: Authenticate user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bearer:
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6ImJhZ3VzIiwiZW1haWwiOiJiYWd1c0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQ4VFJrVS5lWUVHZlRzcVYxRWEwU0IubzBDak9abDd6c3B5Yzh0MEZWVnBMbFBKQ0FPdXZnLiIsImlhdCI6MTcxNDkxODExOX0.aBBEvOVT2tnnQ71WEY0Y1W6Xn6Y0UQf5T3mn49iHpns
+
+      responses:
+        '200':
+          description: Berhasil mengambil data Users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User Created Successfully
+                  data:
+                    $ref: '#/components/schemas/CreateUser'
+        '400':
+          description: Unauthorized access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Token not provided
+                  data:
+                    example: ~ 
+        '401':
+          description: Unauthorized access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: err.message
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: User posted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User updated Successfully
+                  data:
+                    $ref: '#/components/schemas/CreateUser'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    example: ~ 
+        '401':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    example: ~ 
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: get data user Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 2
+                        name:
+                          type: string
+                          example: dewangga
+                        email:
+                          type: string
+                          example: dewangga@gmail.com
+                        images:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 2
+                              title:
+                                type: string
+                                example: foto ganteng
+                              description:
+                                type: string
+                                example: description foto 
+                              avatar_url:
+                                type: string
+                                example: "https://ik.imagekit.io/zk5odlvzgx/1714803708245_hFz7_G1NE.jpeg"
+                              user_id:
+                                type: integer
+                                example: 2
+        '404':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+  /users/{id}:
+    put:
+      tags:
+        - Users
+      summary: Update user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: bagus baru
+                email:
+                  type: string
+                  example: emailbaru
+                password:
+                  type: string
+                  example: password baru
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User updated Successfully
+                  data:
+                    $ref: '#/components/schemas/CreateUser'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: All Input Update Required
+                  data:
+                    example: ~ 
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: User not found
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+  /delete/{id}:
+    delete:
+      tags:
+        - Users
+      summary: Update user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Avatar deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: User updated Successfully
+                  data:
+                    $ref: '#/components/schemas/CreateUser'
+        '404':
+          description: Image with id ${imageId} not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Image with id ${imageId} not found
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+  /avatar/{id}:
+    post:
+      tags:
+        - Avatar
+      summary: Upload avatar for user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Avatar updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Avatar updated successfully
+                  data:
+                    $ref: '#/components/schemas/CreateImage'
+        '400':
+          description: File gambar tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: File gambar tidak ditemukan
+                  data:
+                    example: ~
+        '404':
+          description: User with id ${id} not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: User with id ${id} not found
+                  data:
+                    example: ~
+      security:
+        - bearerAuth: [] 
+    get:
+      tags:
+        - Avatar
+      summary: Get a spesific image by id
+      responses:
+        '200':
+          description: List of user avatars retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: get data user Successfully
+                  data:
+                    $ref: '#/components/schemas/CreateImage'
+        '404':
+          description: Users not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - Avatar
+      summary: Update a spesific image by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: fotonya user
+                description:
+                  type: string
+                  example: test description updated avatar
+                avatar_url:
+                  type: string
+                  example: https://ik.imagekit.io/zk5odlvzgx/challenge6/1714917671771_4dRMzaGMF.jpg"
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Avatar data updated successfully
+                  data:
+                    $ref: '#/components/schemas/CreateUser'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: File gambar tidak ditemukan
+                  data:
+                    example: ~ 
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Image with id ${id} not found
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - Avatar
+      summary: Delete avatar by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User and associated images deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                    example: User and associated images deleted successfully
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: User with id ${id} not found
+                  data:
+                    example: ~ 
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:       
+      type: http
+      scheme: bearer       
+      bearerFormat: JWT
+  schemas:
+    CreateUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: kevin
+        email:
+          type: string
+          example: kevin@gmail.com
+        password:
+          type: string
+          example: password123
+    LoginResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: kevin
+        email:
+          type: string
+          example: kevin@gmail.com
+        password:
+          type: string
+          example: password123
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6ImJhZ3VzIiwiZW1haWwiOiJiYWd1c0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQ4VFJrVS5lWUVHZlRzcVYxRWEwU0IubzBDak9abDd6c3B5Yzh0MEZWVnBMbFBKQ0FPdXZnLiIsImlhdCI6MTcxNDkxODExOX0.aBBEvOVT2tnnQ71WEY0Y1W6Xn6Y0UQf5T3mn49iHpns
+    CreateImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Foto ganteng
+        description:
+          type: string
+          example: description orang ganteng
+        image_url:
+          type: string
+          example: https://ik.imagekit.io/zk5odlvzgx/challenge6/1714823396308_kHrWqNFer0.jpg?updatedAt=1714823411300
+        user_id:
+          type: integer
+          example: 1
